@@ -1,11 +1,29 @@
 import { log } from "./utils";
 import "./todos.css";
 
-const todos = [];
+const todos = [
+  { title: "Html", isDone: false },
+  { title: "Css", isDone: false },
+  { title: "JavaScript", isDone: false },
+];
 
-// 폼에 입력 이벤트 추가하기, 입력했을 때 todo 추가
 const $form = document.querySelector(".new-task");
 const $input = document.querySelector(".new-task > input");
+const $todos = document.querySelector("#todos");
+
+const printTodos = () => {
+  const html = todos.map((todo) => {
+    return `
+    <li>
+    <button class="delete">×</button>
+    <input type="checkbox" class="toggle-checked" />
+    <span class="text">${todo.title}</span>
+    </li>
+    `;
+  });
+
+  $todos.innerHTML = `<ul>${html.join("")}</ul>`;
+};
 
 const checkTodo = (e) => {
   e.preventDefault();
@@ -17,10 +35,26 @@ const checkTodo = (e) => {
   console.log(todos);
 
   //input 초기화
+  $input.value = "";
 
   //todos 출력
+  printTodos();
 };
 
+// 폼에 입력 이벤트 추가하기, 입력했을 때 todo 추가
 $form.addEventListener("submit", checkTodo);
 
+const deleteTodo = () => {
+  console.log("delete");
+};
+
+//삭제
+document.body.addEventListener("click", (e) => {
+  if (e.target.className === "delete") {
+    deleteTodo();
+  }
+});
+
+//todos 출력
+printTodos();
 // todos 뿌려주기
