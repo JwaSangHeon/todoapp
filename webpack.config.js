@@ -1,11 +1,11 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const distPath = path.join(__dirname, 'dist');
+const distPath = path.join(__dirname, "docs");
 
 module.exports = {
-  mode: 'development',
-  entry: './src/index.js',
+  mode: "development",
+  entry: "./src/index.js",
   devServer: {
     static: {
       directory: distPath,
@@ -14,14 +14,14 @@ module.exports = {
     port: 9000,
   },
   output: {
-    filename: 'main.js',
+    filename: "main.js",
     path: distPath,
   },
 
   plugins: [
     // npm i html-webpack-plugin -D
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: "./src/index.html",
     }),
   ],
   module: {
@@ -29,7 +29,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
