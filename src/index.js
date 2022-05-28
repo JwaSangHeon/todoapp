@@ -1,44 +1,31 @@
 import { log } from "./utils";
 import "./todos.css";
+import { printTodos } from "./print-todos";
+import { loadData, savedData } from "./data-manager";
 
-const todos = [
-  { title: "Html", isDone: false },
-  { title: "Css", isDone: false },
-  { title: "JavaScript", isDone: false },
-];
+const todos = loadData();
 
 const $form = document.querySelector(".new-task");
 const $input = document.querySelector(".new-task > input");
-const $todos = document.querySelector("#todos");
 
-const printTodos = () => {
-  const html = todos.map((todo, index) => {
-    return `
-    <li data-index="${index}">
-    <button class="delete">×</button>
-    <input type="checkbox" class="toggle-checked" />
-    <span class="text">${todo.title}</span>
-    </li>
-    `;
-  });
-
-  $todos.innerHTML = `<ul>${html.join("")}</ul>`;
+const print = () => {
+  printTodos(todos);
 };
 
 const checkTodo = (e) => {
   e.preventDefault();
-  console.log($input.value);
+  if ($input.value === "") return;
 
   //todo 추가
   const todo = { title: $input.value, isDone: false };
   todos.push(todo);
-  console.log(todos);
+  // console.log(todos);
 
   //input 초기화
   $input.value = "";
 
   //todos 출력
-  printTodos();
+  print();
 };
 
 // 폼에 입력 이벤트 추가하기, 입력했을 때 todo 추가
@@ -48,10 +35,12 @@ const deleteTodo = (index) => {
   console.log("delete", index);
   //todos에서 index번째 삭제
   todos.splice(index, 1);
-  printTodos();
+  print();
 };
-const toggleTodo = () => {
-  console.log("toggle");
+const toggleTodo = (index) => {
+  todos[index].isDone = !todos[index].isDone;
+  // e.target.parentNode.className = todos[index].isDone ? "checked" : "";
+  print();
 };
 
 //삭제
@@ -60,10 +49,10 @@ document.body.addEventListener("click", (e) => {
   if (e.target.className === "delete") {
     deleteTodo(index);
   } else if (e.target.className === "toggle-checked") {
-    toggleTodo();
+    toggleTodo(index);
   }
 });
 
 //todos 출력
-printTodos();
+print();
 // todos 뿌려주기
